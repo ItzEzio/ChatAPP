@@ -1,0 +1,53 @@
+import java.net.*;
+import java.io.*;
+import java.util.*;
+
+//aggiungere la risposta del server per vedere la risposta dell'altra persona
+
+public class client {
+    public static void main(String[] args) throws UnknownHostException, IOException {
+
+        try (Socket s = new Socket("localhost", 4999)) {
+            Scanner client = new Scanner(System.in);
+            System.out.print("Inserisci il tuo nickname: ");
+            PrintWriter pr = new PrintWriter(s.getOutputStream());
+            String c = client.nextLine();
+            // String utente = c;
+            pr.println(c);
+            pr.flush();
+            while (true) {
+                new UserInput(s, pr).start();
+            }
+
+        } catch (IOException e) {
+            System.out.println("Server Offline");
+        }
+    }
+}
+
+class UserInput extends Thread {
+    @SuppressWarnings("unused")
+    private final Socket s;
+    private String c;
+    // private String utente;
+    private PrintWriter pr;
+    private Scanner client;
+
+    public UserInput(Socket s, PrintWriter pr) {
+        this.s = s;
+        this.pr = pr;
+    }
+
+    public synchronized void run() {
+        client = new Scanner(System.in);
+        c = client.nextLine();
+        pr.println(c);
+        pr.flush();
+    }
+}
+
+class OtherUsersMessages extends Thread {
+    public void run() {
+
+    }
+}

@@ -1,0 +1,24 @@
+InputStreamReader in = new InputStreamReader(s.getInputStream());
+            BufferedReader bf = new BufferedReader(in);
+            String str = bf.readLine();
+
+            String client = str;
+            System.out.println(client + " is connected ");
+            int i = 0;
+
+            while (s.isConnected()) {
+                i++;
+                str = bf.readLine();
+                if (i > 1) {
+                    if (str == null) {
+
+                    } else if (str.equals("/exit")) {
+                        System.out.println(client + " disconnected");
+                    } else {
+                        System.out.println(client + ": " + str);
+
+                    }
+
+                }
+
+            }
